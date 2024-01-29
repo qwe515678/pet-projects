@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
-
+import ContextProvider from "@/components/context";
 const inter = Montserrat({ subsets: ["latin", "cyrillic"] });
 
 export const metadata: Metadata = {
@@ -18,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + ' '}>
-        <div className=" max-w-6xl w-full mx-auto px-2">
-          <Header />
-          {children}
-        </div>
+        <ContextProvider>
+          <div className=" max-w-6xl w-full mx-auto px-2">
+            <Header />
+            {children}
+          </div>
+        </ContextProvider>
       </body>
     </html>
   );

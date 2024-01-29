@@ -84,7 +84,7 @@ function shannonFanoAlgorithm(data: DataItem[], priorityLetters: string[]): Reco
     return codes;
 }
 
-type Return = {
+export type Return = {
     data: Record<string, string>;
     summ: number;
     letterArray: string[];
