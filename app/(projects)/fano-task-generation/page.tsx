@@ -1,7 +1,7 @@
 'use client'
 import fanoFunction, { Return } from '@/lib/fano-generation'
 import { HeaderColorContext } from '@/components/context';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -47,11 +47,10 @@ export default function Page() {
 
 function ResultScreen({ setDataObj, setIsAnswering, isRight }: { setDataObj: Dispatch<SetStateAction<Return>>, setIsAnswering: Dispatch<SetStateAction<boolean>>, isRight: boolean }) {
     const colorContext = useContext(HeaderColorContext)
-
     colorContext?.setHeaderColor(isRight ? colors.right : colors.false)
     return (
         <div className="flex gap-2 max-sm:flex-col">
-            <div className='px-2 flex-1 max-w-[400px] max-sm:max-w-full py-2  text-sm rounded-md font-semibold bg-secondary'>Ответ неверный</div>
+            <div className='px-2 flex-1 max-w-[400px] max-sm:max-w-full py-2  text-sm rounded-md font-semibold bg-secondary'>Ответ {isRight ? 'верный' : 'неверный'}</div>
             <AnimatedBtn func={() => {
                 setDataObj(fanoFunction())
                 setIsAnswering(true)

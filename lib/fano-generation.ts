@@ -109,7 +109,6 @@ export default function main(difficulty: number = Math.floor(Math.random() * 4) 
         let lenght = values[key].length;
         sum += lenght;
     }
-    console.log(probability)
     return {
         data: values,
         summ: sum,
