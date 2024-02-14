@@ -92,13 +92,14 @@ function ResultScreen({ setDataObj, setIsAnswering, isRight, rightCouter, setRig
 }
 
 function AnimatedBtn({ func, text }: { func: () => void, text: string }) {
+    const tailwindInCommon = 'group-hover/btn:opacity-100 group-hover/btn:scale-100 scale-50 group-hover/btn:translate-x-0 -translate-x-1 group-hover/btn:w-fit w-0 opacity-0 transition  '
     return (
-        <button onClick={func} className='px-8 py-2 min-w-48 min-h-10 bg-black text-white text-sm rounded-md font-semibold group/btn flex justify-center items-center'>
+        <button onClick={func} className='px-8 py-2 min-w-48 min-h-10 bg-black text-white rounded-md font-semibold group/btn flex justify-center items-center'>
             {
                 text === 'проверить' ? (
-                    <span><FaMagnifyingGlass className='group-hover/btn:opacity-100 group-hover/btn:scale-100 group-hover/btn:w-fit w-0 opacity-0 transition delay-75 text-sm' /></span>
+                    <span><FaMagnifyingGlass className={`${tailwindInCommon} text-sm`} /></span>
                 ) : (
-                    <span><MdOutlineNavigateNext className='group-hover/btn:opacity-100 group-hover/btn:scale-100 group-hover/btn:w-fit w-0 opacity-0 transition delay-75 text-xl' /></span>
+                    <span><MdOutlineNavigateNext className={`${tailwindInCommon} text-xl`} /></span>
                 )
             }
             <span className='group-hover/btn:translate-x-2 transition'>{text}</span>
