@@ -10,7 +10,7 @@ const letters = [
 ]
 
 function shannonFanoAlgorithm(data: DataItem[], priorityLetters: string[]): Record<string, string> {
-    // Добавляем экземпляры
+    // Добавляем приорететные буквы
     data.push({ symbol: priorityLetters[0], probability: 0.2 });
     data.push({ symbol: priorityLetters[1], probability: 0.2 })
 
@@ -21,7 +21,7 @@ function shannonFanoAlgorithm(data: DataItem[], priorityLetters: string[]): Reco
         return b.probability - a.probability;
     });
 
-    // Затем создаем дерево Шеннона-Фано
+    // Создаем дерево Шеннона-Фано
     function createShannonFanoTree(nodes: DataItem[]): DataItem | null {
         if (nodes.length === 1) {
             return nodes[0];
@@ -31,7 +31,7 @@ function shannonFanoAlgorithm(data: DataItem[], priorityLetters: string[]): Reco
         const rightNodes: DataItem[] = [];
         const middle = Math.floor(nodes.length / 2);
 
-        // Разделите узлы на два подмассива
+        // Разделим узлы на два подмассива
         for (let i = 0; i < middle; i++) {
             leftNodes.push(nodes[i]);
         }
@@ -39,11 +39,11 @@ function shannonFanoAlgorithm(data: DataItem[], priorityLetters: string[]): Reco
             rightNodes.push(nodes[i]);
         }
 
-        // Создайте узлы для левого и правого подмассива
+        // Создаем узлы для левого и правого подмассива
         const leftNode = createShannonFanoTree(leftNodes);
         const rightNode = createShannonFanoTree(rightNodes);
 
-        // Верните новый узел, который объединяет левый и правый узлы
+        // Возвращаем новый узел, который объединяет левый и правый узлы
         if (leftNode && rightNode) {
             return {
                 symbol: '',
@@ -56,10 +56,10 @@ function shannonFanoAlgorithm(data: DataItem[], priorityLetters: string[]): Reco
         return null;
     }
 
-    // Создайте дерево Шеннона-Фано и верните его
+    // Создаем дерево Шеннона-Фано 
     const tree = createShannonFanoTree(data);
 
-    // Теперь преобразуйте дерево в объект с кодами
+    // Преобразуем дерево в объект с кодами
     function traverse(node: DataItem | null, code = ''): void {
         if (!node?.leftNode && !node?.rightNode) {
             node!.code = code;
@@ -75,7 +75,7 @@ function shannonFanoAlgorithm(data: DataItem[], priorityLetters: string[]): Reco
 
     traverse(tree);
 
-    // Верните объект с кодами
+    // Возвращаем объект с кодами
     const codes: Record<string, string> = {};
     for (let node of data) {
         codes[node.symbol] = node.code!;
