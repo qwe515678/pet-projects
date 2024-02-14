@@ -6,13 +6,34 @@ import type { Dispatch, SetStateAction } from 'react';
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
+
+
+type CounterType = {
+    all: number,
+    right: number
+}
+
 export default function Page() {
-    const colorContext = useContext(HeaderColorContext)
     const [dataObj, setDataObj] = useState(fanoFunction())
     const [input, setInput] = useState('')
     const [isAnswering, setIsAnswering] = useState(true)
+    const [rightCouter, setRightCounter] = useState<CounterType>({ all: 0, right: 0 })
+
+    useEffect(() => {
+        const all = parseInt(window.localStorage.getItem('all') || '0', 10);
+        const right = parseInt(window.localStorage.getItem('right') || '0', 10);
+        setRightCounter({ all, right });
+    }, []);
+
+    useEffect(() => {
+        if (rightCouter.all !== 0) {
+            window.localStorage.setItem('all', String(rightCouter.all));
+            window.localStorage.setItem('right', String(rightCouter.right));
+        }
+    }, [rightCouter])
+    console.log(dataObj.summ)
     return (
-        <div className="border py-5 px-5 my-2 rounded-md " suppressHydrationWarning>
+        <div className="border py-5 px-5 my-2 rounded-md relative" suppressHydrationWarning>
             <p className='mb-10' suppressHydrationWarning>
 
                 Для кодирования некоторой последовательности, состоящей из букв {dataObj.letterArray.sort().map((letter, i) => {
@@ -26,7 +47,7 @@ export default function Page() {
 
                 Примечание.
 
-                Условие Фано означает, что никакое кодовое слово не является началом другого кодового слова. Это обеспечивает возможность однозначной расшифровки закодированных сообщений. ответ: {dataObj.summ}
+                Условие Фано означает, что никакое кодовое слово не является началом другого кодового слова. Это обеспечивает возможность однозначной расшифровки закодированных сообщений.
             </p>
 
             {isAnswering ? (
@@ -37,15 +58,24 @@ export default function Page() {
                     }} text='проверить' />
                 </div>
             ) : (
-                <ResultScreen setDataObj={setDataObj} setIsAnswering={setIsAnswering} isRight={parseInt(input) === dataObj.summ} />
+                <ResultScreen rightCouter={rightCouter} setRightCounter={setRightCounter} setDataObj={setDataObj} setIsAnswering={setIsAnswering} isRight={parseInt(input) === dataObj.summ} />
             )}
+            <div className={`absolute right-2 bottom-1 tracking-widest ${rightCouter.all === 0 ? 'opacity-0' : 'opacity-100'}  transition max-md:top-0 px-2 py-1`}>{rightCouter.right}/{rightCouter.all}</div>
         </div>
     )
 }
 
 
 
-function ResultScreen({ setDataObj, setIsAnswering, isRight }: { setDataObj: Dispatch<SetStateAction<Return>>, setIsAnswering: Dispatch<SetStateAction<boolean>>, isRight: boolean }) {
+type ResultScreenProps = {
+    setDataObj: Dispatch<SetStateAction<Return>>,
+    setIsAnswering: Dispatch<SetStateAction<boolean>>,
+    isRight: boolean,
+    rightCouter: CounterType,
+    setRightCounter: Dispatch<SetStateAction<CounterType>>
+}
+
+function ResultScreen({ setDataObj, setIsAnswering, isRight, rightCouter, setRightCounter }: ResultScreenProps) {
     const colorContext = useContext(HeaderColorContext)
     colorContext?.setHeaderColor(isRight ? colors.right : colors.false)
     return (
@@ -55,6 +85,7 @@ function ResultScreen({ setDataObj, setIsAnswering, isRight }: { setDataObj: Dis
                 setDataObj(fanoFunction())
                 setIsAnswering(true)
                 colorContext?.setHeaderColor(colors.defalt)
+                setRightCounter({ all: rightCouter.all + 1, right: rightCouter.right + (isRight ? 1 : 0) })
             }} text='дальше' />
         </div>
     )
