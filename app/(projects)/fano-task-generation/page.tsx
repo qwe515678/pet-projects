@@ -5,7 +5,8 @@ import { useContext, useEffect, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-
+import { AnimatePresence, Variants, motion } from 'framer-motion';
+import { GrPowerReset } from "react-icons/gr";
 
 
 type CounterType = {
@@ -18,7 +19,7 @@ export default function Page() {
     const [input, setInput] = useState('')
     const [isAnswering, setIsAnswering] = useState(true)
     const [rightCouter, setRightCounter] = useState<CounterType>({ all: 0, right: 0 })
-
+    const [isResetClicked, setIsResetClicked] = useState(false)
     useEffect(() => {
         const all = parseInt(window.localStorage.getItem('all') || '0', 10);
         const right = parseInt(window.localStorage.getItem('right') || '0', 10);
@@ -60,11 +61,45 @@ export default function Page() {
             ) : (
                 <ResultScreen rightCouter={rightCouter} setRightCounter={setRightCounter} setDataObj={setDataObj} setIsAnswering={setIsAnswering} isRight={parseInt(input) === dataObj.summ} />
             )}
-            <div className={`absolute right-2 bottom-1 tracking-widest ${rightCouter.all === 0 ? 'opacity-0' : 'opacity-100'}  transition max-md:top-0 px-2 py-1`}>{rightCouter.right}/{rightCouter.all}</div>
+            <AnimatePresence>
+
+                    {isResetClicked ? (
+                        <motion.button variants={counterVariants} initial={'closed'} animate='open' whileHover={`hover`} exit={`closed`} key={`reset`} className={`absolute right-2 bottom-2 transition max-md:top-0 h-fit px-2 py-1 max-md:py-2`} onClick={() => {
+                            setIsResetClicked(false)
+                            setRightCounter({ all: 1, right: 1 })
+                        }}>
+                            <GrPowerReset />
+                        </motion.button>
+                    ) : (
+                        <motion.div variants={counterVariants} initial={'closed'} animate='open' whileHover={`hover`} exit={`closed`} key={`counter`} className={`absolute right-2 bottom-1 cursor-pointer tracking-widest ${rightCouter.all === 0 ? 'opacity-0' : 'opacity-100'}  max-md:top-0 px-2 py-1`} onClick={() => {
+                            setIsResetClicked(true)
+                            setTimeout(() => setIsResetClicked(false), 2500)
+                        }}>{rightCouter.right}/{rightCouter.all}</motion.div>
+                    )}
+            </AnimatePresence>
         </div>
     )
 }
 
+const counterVariants: Variants = {
+    closed: {
+        scale: 0.5,
+        opacity: 0.5,
+        transition: {
+            duration: 0.1,
+        }
+    },
+    open: {
+        scale: 1,
+        opacity: 100,
+        transition: {
+            duration: 0.1,
+        }
+    },
+    hover: {
+        scaleX: 1.1
+    }
+}
 
 
 type ResultScreenProps = {

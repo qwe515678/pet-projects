@@ -13,7 +13,7 @@ export default function Home() {
       <section className="h-dvh dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] border-double  relative flex items-center justify-center">
         {/* Radial gradient for the container to give a faded look */}
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-        <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text bg-gradient-to-b text-foreground py-8">
+        <p className="text-4xl sm:text-7xl font-extrabold relative z-20 bg-clip-text bg-gradient-to-b text-foreground py-8">
           <Link href={`https://github.com/qwe515678`} className="border-b-4 border-dashed transition hover:border-pink-400">His</Link> pet-projects
         </p>
       </section>
