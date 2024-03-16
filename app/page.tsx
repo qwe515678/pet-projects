@@ -4,13 +4,17 @@ const data: { route: string, name: string }[] = [
   {
     route: 'fano-task-generation',
     name: 'Генерация 4-ого задания егэ'
+  },
+  {
+    route: 'svg-to-path',
+    name: 'Svg Shapes to Path'
   }
 ]
 
 export default function Home() {
   return (
     <div className="">
-      <section className="h-dvh dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] border-double  relative flex items-center justify-center">
+      <section className="h-dvh  dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] border-double  relative flex items-center justify-center">
         {/* Radial gradient for the container to give a faded look */}
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
         <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text bg-gradient-to-b text-foreground py-8">
